@@ -7,11 +7,11 @@ resource "aws_instance" "bastion" {
 	instance_type   = "t3.medium"
 
 	key_name = "k8s-ho"
-
-    network_interface {
-      network_interface_id = aws_network_interface.pub_interface.id
-      device_index         = 0
-    } 
+	
+	network_interface {
+		network_interface_id = aws_network_interface.pub_interface.id
+		device_index         = 0
+	} 
 	user_data = <<-EOT
 		#!/bin/bash
 		sudo apt update && sudo apt install unzip
@@ -39,10 +39,10 @@ resource "aws_instance" "bastion" {
 		echo 'complete -F __start_kubectl k' >> /etc/profile
 
 		# install eksctl
-	    curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-        mv /tmp/eksctl /usr/local/bin
+	    	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+        	mv /tmp/eksctl /usr/local/bin
 
-        # install yh
+       		# install yh
 		wget https://github.com/andreazorzetto/yh/releases/download/v0.4.0/yh-linux-amd64.zip
 		unzip yh-linux-amd64.zip
 		mv yh /usr/local/bin/
@@ -54,7 +54,7 @@ resource "aws_instance" "bastion" {
 		EOT
 
 	tags = {
-	  Name = "EKS Bastion host"
+		Name = "EKS Bastion host"
 	}
 	depends_on = [aws_internet_gateway.bastion_gw]
 }
