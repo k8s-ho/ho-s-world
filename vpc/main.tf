@@ -36,7 +36,6 @@ resource "aws_subnet" "public_sub_3" {
   }
 }
 
-
 resource "aws_subnet" "private_sub_1" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = var.private_subnet_cidr_1
@@ -90,7 +89,6 @@ resource "aws_network_interface" "pub_interface" {
     Name = "primary_network_interface"
   }
 }  
-
 
 resource "aws_internet_gateway" "bastion_gw" {
   vpc_id = aws_vpc.main_vpc.id
