@@ -4,7 +4,7 @@ provider "aws" {
 
 variable "key_name" {
   description = "SSH key name"
-  default     = "abc"
+  default     = "abc" # < Enter your key pair name >
 }
 
 module "security_group"{
