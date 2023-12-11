@@ -11,7 +11,6 @@ resource "aws_security_group" "allow_bastion"{
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = [format("%s/32", data.http.public_ip.response_body)] 
-    #cidr_blocks = [var.bastion_public_ip]
   }
 
   egress {
@@ -50,6 +49,7 @@ resource "aws_security_group" "private_ec2"{
   }
 }
 
+/*
 resource "aws_security_group_rule" "private_ec2" {
   type                     = "ingress"
   from_port                = 22
@@ -58,3 +58,4 @@ resource "aws_security_group_rule" "private_ec2" {
   security_group_id        = aws_security_group.private_ec2.id
   source_security_group_id = aws_security_group.allow_bastion.id
 }
+*/
