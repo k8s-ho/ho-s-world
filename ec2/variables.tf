@@ -6,10 +6,6 @@ variable "instance_type" {
   type = string
 }
 
-variable "key_name" {
-  type = string
-}
-
 variable "hostname" {
   type = string
 }
@@ -20,4 +16,8 @@ variable "subnet" {
 
 variable "sg" {
   type = list(string)
+}
+
+variable "key_name" {
+  type = string
 }
