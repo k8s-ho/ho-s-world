@@ -6,6 +6,23 @@ resource "aws_vpc" "main_vpc" {
   }
 }
 
+resource "aws_default_security_group" "default" {
+  vpc_id = aws_vpc.main_vpc.id
+
+  tags = {
+    Name = "main_vpc-default-sg"
+  }
+}
+
+resource "aws_network_interface" "pub_interface" {
+  subnet_id       = aws_subnet.public_sub_1.id
+  private_ips     = [var.bastion_private_ip]
+  security_groups = var.sg
+  tags = {
+    Name = "primary_network_interface"
+  }
+}  
+
 resource "aws_subnet" "public_sub_1" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = var.public_subnet_cidr_1
@@ -63,32 +80,6 @@ resource "aws_subnet" "private_sub_3" {
   }
 }
 
-resource "aws_security_group" "allow_bastion" {
-  name        = "allow_bastion"
-  description = "Allow bastion inbound traffic my ip"
-  vpc_id      = aws_vpc.main_vpc.id
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["1.236.247.2/32"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_network_interface" "pub_interface" {
-  subnet_id       = aws_subnet.public_sub_1.id
-  private_ips     = [var.bastion_private_ip]
-  security_groups = [aws_security_group.allow_bastion.id]
-  tags = {
-    Name = "primary_network_interface"
-  }
-}  
 
 resource "aws_internet_gateway" "bastion_gw" {
   vpc_id = aws_vpc.main_vpc.id
@@ -109,6 +100,9 @@ resource "aws_route_table" "public_route" {
     cidr_block = var.vpc_cidr
     gateway_id = "local"
   }
+  tags = {
+    Name = "public_route"
+  }
 }
 
 resource "aws_route_table" "private_route" {
@@ -117,6 +111,9 @@ resource "aws_route_table" "private_route" {
   route {
     cidr_block = var.vpc_cidr
     gateway_id = "local"
+  }
+  tags = {
+    Name = "private_route"
   }
 }
 
