@@ -56,5 +56,5 @@ resource "aws_security_group_rule" "private_ec2" {
   to_port                  = 22
   protocol                 = "tcp"
   security_group_id        = aws_security_group.private_ec2.id
-  #source_security_group_id = aws_security_group.allow_bastion.id
+  source_security_group_id = aws_security_group.allow_bastion.id
 }
