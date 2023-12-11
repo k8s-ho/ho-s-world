@@ -3,9 +3,18 @@
 ``` bash
 git clone https://github.com/k8s-ho/my_world
 cd my_world
-mv your key file in my_world
-change the code main.tf
-chmod 600 [your pem key file]
+```
+
+<br>
+
+### Usage
+
+1. Move your key pair file into the "my_world" directory
+2. change the default value of the "key_name" variable in "main.tf" to your key pair name.
+
+
+``` bash
+chmod 600 [your key pair file]
 terraform init
 terraform apply
 ```
