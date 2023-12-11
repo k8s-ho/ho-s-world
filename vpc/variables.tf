@@ -29,3 +29,7 @@ variable "private_subnet_cidr_3" {
 variable "bastion_private_ip" {
   type = string
 }
+
+variable "sg" {
+  type = list(string)
+}
