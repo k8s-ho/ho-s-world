@@ -45,9 +45,10 @@ resource "aws_instance" "bastion" {
 
   # Install krew plugin
   kubectl krew install ctx ns get-all 
+  
   EOT
 
   tags = {
-    Name = "Bastion host"
+    Name = "bastion host"
   }
 }
