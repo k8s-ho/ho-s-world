@@ -18,3 +18,9 @@ chmod 600 *.pem # chmod 600 [your key pair file]
 terraform init
 terraform apply
 ```
+<br>
+
+### tear down
+```bash
+terraform destroy
+```
