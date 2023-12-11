@@ -14,7 +14,7 @@ cd my_world
 
 
 ``` bash
-chmod 600 [your key pair file]
+chmod 600 *.pem # chmod 600 [your key pair file]
 terraform init
 terraform apply
 ```
