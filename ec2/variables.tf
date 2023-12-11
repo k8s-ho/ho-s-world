@@ -10,10 +10,14 @@ variable "key_name" {
   type = string
 }
 
-variable "interface" {
+variable "hostname" {
   type = string
 }
 
-variable "gw" {
+variable "subnet" {
   type = string
+}
+
+variable "sg" {
+  type = list(string)
 }
