@@ -5,9 +5,11 @@ output "vpc_id" {
 output "public_subnet_id_1" {
   value = module.vpc.public_subnet_id_1
 }
+
 output "public_subnet_id_2" {
   value = module.vpc.public_subnet_id_2
 }
+
 output "public_subnet_id_3" {
   value = module.vpc.public_subnet_id_3
 }
