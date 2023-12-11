@@ -23,7 +23,7 @@ terraform apply
 ```
 <br>
 
-### tear down
+## tear down
 ```bash
 terraform destroy
 ```
