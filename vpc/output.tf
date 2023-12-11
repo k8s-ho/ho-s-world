@@ -24,10 +24,10 @@ output "private_subnet_id_3" {
   value = aws_subnet.private_sub_3.id
 }
 
-output "ec2_interface" {
-  value = aws_network_interface.pub_interface.id
-}
-
 output "internet_gw" {
   value = aws_internet_gateway.bastion_gw.id
+}
+
+output "ec2_interface" {
+  value = aws_network_interface.pub_interface.id
 }
