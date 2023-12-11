@@ -25,3 +25,11 @@ output "private_subnet_id_2" {
 output "private_subnet_id_3" {
   value = module.vpc.private_subnet_id_3
 }
+
+output "bastion_public_ip" {
+  value = module.bastion.bastion_ip
+}
+
+output "private_instance_ip" {
+  value = module.server.server_ip
+}
