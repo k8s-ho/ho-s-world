@@ -3,27 +3,27 @@ output "vpc_id" {
 }
 
 output "public_subnet_id_1" {
-  value = aws_subnet.public_sub_1.id
+  value = aws_subnet.public_sub[0].id
 }
 
 output "public_subnet_id_2" {
-  value = aws_subnet.public_sub_2.id
+  value = aws_subnet.public_sub[1].id
 }
 
 output "public_subnet_id_3" {
-  value = aws_subnet.public_sub_3.id
+  value = aws_subnet.public_sub[2].id
 }
 
 output "private_subnet_id_1" {
-  value = aws_subnet.private_sub_1.id
+  value = aws_subnet.private_sub[0].id
 }
 
 output "private_subnet_id_2" {
-  value = aws_subnet.private_sub_2.id
+  value = aws_subnet.private_sub[1].id
 }
 
 output "private_subnet_id_3" {
-  value = aws_subnet.private_sub_3.id
+  value = aws_subnet.private_sub[2].id
 }
 
 output "internet_gw" {
