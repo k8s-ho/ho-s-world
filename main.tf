@@ -16,12 +16,6 @@ module "security_group"{
 module "vpc" {
   source = "./vpc"
   vpc_cidr = "192.168.0.0/16"
-  public_subnet_cidr_1 = "192.168.1.0/24"
-  public_subnet_cidr_2 = "192.168.2.0/24"
-  public_subnet_cidr_3 = "192.168.3.0/24"
-  private_subnet_cidr_1 = "192.168.11.0/24"
-  private_subnet_cidr_2 = "192.168.12.0/24"
-  private_subnet_cidr_3 = "192.168.13.0/24"
   bastion_private_ip = "192.168.1.100"
   sg = [module.security_group.bastion_sg]
 }
@@ -40,7 +34,8 @@ module "server" {
   instance_ami = "ami-09eb4311cbaecf89d"
   instance_type = "t3.medium"
   key_name = var.key_name
-  hostname = "private-1"
+  count = 2
+  hostname = "private-${count.index + 1}"
   subnet = module.vpc.private_subnet_id_1
   sg = [module.security_group.private_sg]
 }
