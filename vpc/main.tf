@@ -15,7 +15,7 @@ resource "aws_default_security_group" "default" {
 }
 
 resource "aws_network_interface" "pub_interface" {
-  subnet_id       = aws_subnet.public_sub_1.id
+  subnet_id       = aws_subnet.public_sub[0].id
   private_ips     = [var.bastion_private_ip]
   security_groups = var.sg
   tags = {
@@ -23,63 +23,29 @@ resource "aws_network_interface" "pub_interface" {
   }
 }  
 
-resource "aws_subnet" "public_sub_1" {
+resource "aws_subnet" "public_sub" {
+  count = length(var.public_subnet_cidrs)
   vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = var.public_subnet_cidr_1
-  availability_zone = "ap-northeast-2a"
+  cidr_block        = var.public_subnet_cidrs[count.index]
+  availability_zone = "ap-northeast-2${element(["a", "b", "c"], count.index)}"
   map_public_ip_on_launch = true
+
   tags = {
-    Name = "public_sub_1"
+    Name = "public_sub_${count.index + 1}"
   }
 }
 
-resource "aws_subnet" "public_sub_2" {
+resource "aws_subnet" "private_sub" {
+  count = length(var.private_subnet_cidrs)
   vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = var.public_subnet_cidr_2
-  availability_zone = "ap-northeast-2b"
-  map_public_ip_on_launch = true
+  cidr_block        = var.private_subnet_cidrs[count.index]
+  availability_zone = "ap-northeast-2${element(["a", "b", "c"], count.index)}"
+  map_public_ip_on_launch = false
+
   tags = {
-    Name = "public_sub_2"
+    Name = "private_sub_${count.index + 1}"
   }
 }
-
-resource "aws_subnet" "public_sub_3" {
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = var.public_subnet_cidr_3
-  availability_zone = "ap-northeast-2c"
-  map_public_ip_on_launch = true
-  tags = {
-    Name = "public_sub_3"
-  }
-}
-
-resource "aws_subnet" "private_sub_1" {
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = var.private_subnet_cidr_1
-  availability_zone = "ap-northeast-2a"
-  tags = {
-    Name = "private_sub_1"
-  }
-}
-
-resource "aws_subnet" "private_sub_2" {
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = var.private_subnet_cidr_2
-  availability_zone = "ap-northeast-2b"
-  tags = {
-    Name = "private_sub_2"
-  }
-}
-
-resource "aws_subnet" "private_sub_3" {
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = var.private_subnet_cidr_3
-  availability_zone = "ap-northeast-2c"
-  tags = {
-    Name = "private_sub_3"
-  }
-}
-
 
 resource "aws_internet_gateway" "bastion_gw" {
   vpc_id = aws_vpc.main_vpc.id
@@ -121,39 +87,21 @@ resource "aws_route_table" "private_route" {
   }
 }
 
-resource "aws_route_table_association" "public_routing_1" {
-  subnet_id      = aws_subnet.public_sub_1.id
-  route_table_id = aws_route_table.public_route.id
+resource "aws_route_table_association" "public_routing" {
+  count           = length(var.public_subnet_cidrs)
+  subnet_id       = aws_subnet.public_sub[count.index].id
+  route_table_id  = aws_route_table.public_route.id
 }
 
-resource "aws_route_table_association" "public_routing_2" {
-  subnet_id      = aws_subnet.public_sub_2.id
-  route_table_id = aws_route_table.public_route.id
-}
-
-resource "aws_route_table_association" "public_routing_3" {
-  subnet_id      = aws_subnet.public_sub_3.id
-  route_table_id = aws_route_table.public_route.id
-}
-
-resource "aws_route_table_association" "private_routing_1" {
-  subnet_id      = aws_subnet.private_sub_1.id
-  route_table_id = aws_route_table.private_route.id
-}
-
-resource "aws_route_table_association" "private_routing_2" {
-  subnet_id      = aws_subnet.private_sub_2.id
-  route_table_id = aws_route_table.private_route.id
-}
-
-resource "aws_route_table_association" "private_routing_3" {
-  subnet_id      = aws_subnet.private_sub_3.id
-  route_table_id = aws_route_table.private_route.id
+resource "aws_route_table_association" "private_routing" {
+  count           = length(var.private_subnet_cidrs)
+  subnet_id       = aws_subnet.private_sub[count.index].id
+  route_table_id  = aws_route_table.private_route.id
 }
 
 resource "aws_nat_gateway" "nat_gw" {
   allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.public_sub_1.id
+  subnet_id     = aws_subnet.public_sub[0].id
 }
 
 resource "aws_eip" "nat_eip" {
