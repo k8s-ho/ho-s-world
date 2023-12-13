@@ -31,5 +31,5 @@ output "bastion_public_ip" {
 }
 
 output "private_instance_ip" {
-  value = module.server.server_ip
+  value = module.server[*].server_ip
 }
