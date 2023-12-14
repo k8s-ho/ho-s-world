@@ -1,11 +1,9 @@
-# ho's-world
+# k8s-ho's world
 
-``` bash
-git clone https://github.com/k8s-ho/my_world
-cd my_world
-```
+## Architecture
+<img width="1344" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/5adbef55-28a4-4484-b182-16a8025ca4e2">
 
-<br>
+<br><br>
 
 ## Usage
 1. Move your key pair file into the "my_world" directory
