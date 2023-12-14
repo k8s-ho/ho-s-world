@@ -2,28 +2,12 @@ output "vpc_id" {
   value = aws_vpc.main_vpc.id
 }
 
-output "public_subnet_id_1" {
-  value = aws_subnet.public_sub[0].id
+output "public_subnet_ids" {
+  value = [for subnet in aws_subnet.public_sub : subnet.id]
 }
 
-output "public_subnet_id_2" {
-  value = aws_subnet.public_sub[1].id
-}
-
-output "public_subnet_id_3" {
-  value = aws_subnet.public_sub[2].id
-}
-
-output "private_subnet_id_1" {
-  value = aws_subnet.private_sub[0].id
-}
-
-output "private_subnet_id_2" {
-  value = aws_subnet.private_sub[1].id
-}
-
-output "private_subnet_id_3" {
-  value = aws_subnet.private_sub[2].id
+output "private_subnet_ids" {
+  value = [for subnet in aws_subnet.private_sub : subnet.id]
 }
 
 output "internet_gw" {
@@ -32,4 +16,12 @@ output "internet_gw" {
 
 output "ec2_interface" {
   value = aws_network_interface.pub_interface.id
+}
+
+output "lb_dns_name" {
+  value = aws_lb.my-lb.dns_name
+}
+
+output "lb_zone_id" {
+  value = aws_lb.my-lb.zone_id
 }
