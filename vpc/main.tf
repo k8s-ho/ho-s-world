@@ -31,7 +31,7 @@ resource "aws_subnet" "public_sub" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public_sub_${count.index + 1}"
+    Name = "public_sub_${count.index}"
   }
 }
 
@@ -43,7 +43,7 @@ resource "aws_subnet" "private_sub" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "private_sub_${count.index + 1}"
+    Name = "private_sub_${count.index}"
   }
 }
 
@@ -106,4 +106,62 @@ resource "aws_nat_gateway" "nat_gw" {
 
 resource "aws_eip" "nat_eip" {
   domain = "vpc"
+}
+
+resource "aws_lb" "my-lb" {
+  name               = "my-lb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = var.lb_sg
+  subnets            = [for subnet in aws_subnet.public_sub : subnet.id]
+
+  enable_deletion_protection = false
+/*
+  access_logs {
+    bucket  = aws_s3_bucket.lb_logs.id
+    prefix  = "my-lb"
+    enabled = true
+  }
+*/
+  tags = {
+    Name = "private_ec2_lb"
+  }
+}
+
+resource "aws_lb_target_group" "my-loadbalancer" {
+  name     = "private-ec2-lb"
+  port     = 7777
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.main_vpc.id
+}
+
+resource "aws_lb_target_group_attachment" "my-loadbalancer-attach" {
+  count            = length(var.lb_attach_ec2_ids)
+  target_group_arn = aws_lb_target_group.my-loadbalancer.arn
+  target_id        = var.lb_attach_ec2_ids[count.index]
+  port             = 7777
+}
+
+resource "aws_lb_listener" "my-listener" {
+  load_balancer_arn = aws_lb.my-lb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.my-loadbalancer.arn
+    type             = "forward"
+  }
+}
+
+resource "aws_lb_listener" "my-listener-https" {
+  load_balancer_arn = aws_lb.my-lb.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.my-loadbalancer.arn
+    type             = "forward"
+  }
+  certificate_arn = var.certificate
 }
