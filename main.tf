@@ -18,6 +18,11 @@ module "vpc" {
   vpc_cidr = "192.168.0.0/16"
   bastion_private_ip = "192.168.1.100"
   sg = [module.security_group.bastion_sg]
+
+  # LoadBalancing config
+  lb_sg = [module.security_group.lb_sg]
+  certificate = "arn:aws:acm:ap-northeast-2:123412341234:certificate/12345678-1234-abcd-abcd-234523452345" # <your_ssl_certificate_arn>
+  lb_attach_ec2_ids  = flatten([for instance in module.server : instance.server_ec2_ids])
 }
 
 module "bastion" {
@@ -35,9 +40,17 @@ module "server" {
   instance_type = "t3.medium"
   key_name = var.key_name
   count = 2
-  hostname = "private-${count.index + 1}"
-  subnet = module.vpc.private_subnet_id_1
+  hostname = "private-${count.index}"
+  subnet = module.vpc.private_subnet_ids[count.index]
   sg = [module.security_group.private_sg]
+}
+
+module "route53" {
+  source = "./route53"
+  hostzone_id = "000000000000000000000" # <Your route53 hostzone ID>
+  record_name = "my-world"  # <Route 53 record name you want>
+  lb_dns_name = module.vpc.lb_dns_name
+  lb_zone_id = module.vpc.lb_zone_id
 }
 
 resource "null_resource" "copy_ssh_key_bastion" {
