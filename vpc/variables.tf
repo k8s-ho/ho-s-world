@@ -19,3 +19,15 @@ variable "bastion_private_ip" {
 variable "sg" {
   type = list(string)
 }
+
+variable "lb_sg" {
+  type = list(string)
+}
+
+variable "certificate" {
+  type = string
+}
+
+variable "lb_attach_ec2_ids" {
+  type = list(string)
+}
