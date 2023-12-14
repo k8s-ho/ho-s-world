@@ -5,7 +5,7 @@
 
 <br><br>
 
-## Usage
+## [+] Usage
 1. Move your key pair file into the "my_world" directory
 <img width="731" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/d4f608ed-25f1-4306-8ecb-e773f098555b"/>
 <br><br><br>
@@ -21,7 +21,14 @@ terraform apply
 ```
 <br>
 
-## tear down
+## [!] Caution
+```bash
+In the case of iPhone, when using wired tethering, the public IP sometimes does not match.
+Therefore, you must create an instance and put the public IP that is actually accessed through tcpdump in bastion sg.
+```
+<br>
+
+## [-] Tear down
 ```bash
 terraform destroy
 ```
