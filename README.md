@@ -1,7 +1,7 @@
 # k8s-ho's world
 
 ## Architecture
-<img width="1344" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/5adbef55-28a4-4484-b182-16a8025ca4e2">
+<img width="1359" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/aaebed95-89cb-48a2-be23-3dc68d0bec56">
 
 <br><br>
 
