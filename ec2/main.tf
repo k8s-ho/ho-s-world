@@ -8,11 +8,15 @@ resource "aws_instance" "server" {
 
   user_data = <<-EOT
   #!/bin/bash
-  sudo apt update && sudo apt install unzip
+  sudo apt update -y && sudo apt install unzip -y
+  sudo apt install python3-pip -y
   sudo apt install net-tools && apt install -y jq
 
   echo "sudo su -" >> /home/ubuntu/.bashrc
   sudo hostnamectl --static set-hostname ${var.hostname}
+
+  echo "[+] Hello this is ${var.hostname} server!!" > index.html
+  nohup busybox httpd -f -p 7777 &
   EOT
 
   tags = {
