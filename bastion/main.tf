@@ -10,7 +10,7 @@ resource "aws_instance" "bastion" {
 
   user_data = <<-EOT
   #!/bin/bash
-  sudo apt update && sudo apt install unzip
+  sudo apt update -y && sudo apt install unzip -y
   sudo apt install net-tools && apt install -y jq
 
   echo "sudo su -" >> /home/ubuntu/.bashrc
