@@ -1,6 +1,7 @@
 # k8s-ho's world
 
 ## Architecture
+- This is an environment created for Terraform practice.
 <img width="1359" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/aaebed95-89cb-48a2-be23-3dc68d0bec56">
 
 <br><br>
