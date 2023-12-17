@@ -10,8 +10,8 @@
 1. Move your key pair file into the "my_world" directory
 <img width="731" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/d4f608ed-25f1-4306-8ecb-e773f098555b"/>
 <br><br><br>
-2. Change the default value of the "key_name" variable in "main.tf" to your key pair name.
-<img width="731" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/382eb832-fa80-4bdf-abae-ce547b8b09a5"/>
+2. Change the value of the local variable to match your information.
+<img width="731" alt="스크린샷 2023-12-17 오후 9 23 12" src="https://github.com/k8s-ho/my_world/assets/118821939/e663d63b-ba0e-4e23-b1d6-115d87523711">
 
 <br><br><br>
 3. Let’s run terraform!!
