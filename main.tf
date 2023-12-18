@@ -56,11 +56,65 @@ module "route53" {
 }
 
 resource "null_resource" "copy_ssh_key_bastion" {
-  depends_on = [module.bastion] 
-  provisioner "local-exec" { # 혹시몰라서 인스턴스 생성 30초 대기 후 명령 진
+  depends_on = [
+    module.bastion,
+    module.eks,
+  ] 
+  provisioner "local-exec" {
     command = <<-EOT
-      sleep 30
       scp -o StrictHostKeyChecking=no -i ${local.key_name}.pem ${local.key_name}.pem ubuntu@${module.bastion.bastion_ip}:.ssh/id_rsa
     EOT
+  }
+}
+
+# EKS Cluster
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "19.15.3"
+
+  cluster_endpoint_public_access = true
+  cluster_name    = local.eks_cluster_name
+  cluster_version = "1.28"
+  vpc_id = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnet_ids
+
+  cluster_addons = {
+    coredns = {
+      preserve    = true
+      most_recent = true
+
+      timeouts = {
+        create = "25m"
+        delete = "10m"
+      }
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+  }
+
+  eks_managed_node_group_defaults = {
+    ami_type = "AL2_x86_64"
+  }
+
+  eks_managed_node_groups = {
+    worker = {
+      name = "worker-groups"
+      use_custom_launch_template = false
+      instance_types = ["t3.medium"]
+
+      min_size     = 1
+      max_size     = 5
+      desired_size = 3
+      remote_access = {
+        ec2_ssh_key = local.key_name
+      }
+      tags = {
+        Name = "worker_node"
+      }
+    }
   }
 }
