@@ -2,7 +2,7 @@
 
 ## Architecture
 - This is an environment created for Terraform practice.
-<img width="1359" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/aaebed95-89cb-48a2-be23-3dc68d0bec56">
+<img width="1359" alt="aba" src="https://github.com/k8s-ho/my_world/assets/118821939/bef3c2d5-da34-464e-82e6-d2b56beec836">
 
 <br><br>
 
@@ -11,7 +11,7 @@
 <img width="731" alt="abc" src="https://github.com/k8s-ho/my_world/assets/118821939/d4f608ed-25f1-4306-8ecb-e773f098555b"/>
 <br><br><br>
 2. Change the value of the local variable to match your information.
-<img width="731" alt="스크린샷 2023-12-17 오후 9 23 12" src="https://github.com/k8s-ho/my_world/assets/118821939/e663d63b-ba0e-4e23-b1d6-115d87523711">
+<img width="731" alt="ccc" src="https://github.com/k8s-ho/my_world/assets/118821939/75bff852-b64d-4aa1-b625-7a9eb8946b9d">
 
 <br><br><br>
 3. Let’s run terraform!!
