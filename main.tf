@@ -7,6 +7,7 @@ locals {
   certificate = "arn:aws:acm:ap-northeast-2:123412341234:certificate/12345678-1234-abcd-abcd-234523452345" # <Enter your ssl certificate arn>
   route53_hostzoneid = "000000000000000000000"  # <Enter your route53_hostzone id>
   route53_record_name = "my-world" # <Enter your route53 record name >
+  eks_cluster_name = "k8s-ho"
 }
 
 module "security_group"{
