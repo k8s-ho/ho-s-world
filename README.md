@@ -18,7 +18,7 @@
 ``` bash
 chmod 600 *.pem # chmod 600 [your key pair file]
 terraform init
-terraform apply
+terraform apply --auto-approve
 ```
 <br>
 
@@ -31,5 +31,5 @@ Therefore, you must create an instance and put the public IP that is actually ac
 
 ## [-] Tear down
 ```bash
-terraform destroy
+terraform destroy --auto-approve
 ```
